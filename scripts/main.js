@@ -1,7 +1,7 @@
-var app, 
-  categoryListHeight, 
-  clearFilterHeight, 
-  movies, 
+var app,
+  categoryListHeight,
+  clearFilterHeight,
+  movies,
   fourCategories = {
     genre: {name: "genre", arr: [], chosenArr: []},
     director: {name: "director", arr: [], chosenArr: []},
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function appendElements() {
   // Declare elements
   var loadingPage = document.createElement("div"),
-    loader = document.createElement("div"), 
+    loader = document.createElement("div"),
     header = document.createElement("header"),
     h1 = document.createElement("h1"),
     refine = document.createElement("button"),
@@ -27,11 +27,11 @@ function appendElements() {
     main = document.createElement("main"),
     searchInfo = document.createElement("div"),
     movieList = document.createElement("ul");
-    
+
   // Set attributes
   loadingPage.id = "loading-page";
   loadingPage.className = "loading";
-  loader.className = "loader"; 
+  loader.className = "loader";
   refine.id = "refine";
   refine.className = "refine";
   refine.setAttribute("aria-label", "Refine Button");
@@ -46,7 +46,7 @@ function appendElements() {
   // Set innerHTML
   h1.innerHTML = "Movie Finder";
   refine.innerHTML = "refine";
-  
+
   // Build app
   app.appendChild(loadingPage);
   loadingPage.appendChild(loader);
@@ -57,12 +57,12 @@ function appendElements() {
   app.appendChild(main);
   main.appendChild(searchInfo);
   main.appendChild(movieList);
-  
+
   if (window.innerWidth < 768) {
     // Hides refine menu
     refineMenu.classList.add("menu-hidden");
   }
-  
+
   buildRefineMenu(refineMenu);
   setRefineMenu();
   refineButton(refine, refineMenu);
@@ -71,19 +71,19 @@ function appendElements() {
 // Builds refine menu from fourCategories
 function buildRefineMenu(refineMenu) {
   // Declare variables
-  var key, 
-    name, 
+  var key,
+    name,
     catgeoryContainer,
     categoryHeading,
     filterCount,
     categorySubcontainer,
     clearFilter,
     categoryList;
-    
+
   for (key in fourCategories) {
     if (fourCategories.hasOwnProperty(key)) {
       name = fourCategories[key].name;
-      
+
       // Create elements in refine menu for each of the four categories
       categoryContainer = document.createElement("div");
       categoryHeading = document.createElement("div");
@@ -91,7 +91,7 @@ function buildRefineMenu(refineMenu) {
       categorySubcontainer = document.createElement("div");
       clearFilter = document.createElement("div");
       categoryList = document.createElement("ul");
-      
+
       // Set attributes
       categoryContainer.className = "category-container";
       categoryContainer.id = name + "-container";
@@ -105,11 +105,11 @@ function buildRefineMenu(refineMenu) {
       clearFilter.id = name + "-clear-filter";
       categoryList.className = "category-ul";
       categoryList.id = name + "-ul";
-      
+
       // Set innerHTML
       categoryHeading.innerHTML = name;
       clearFilter.innerHTML = "Clear Filter";
-      
+
       // Build refine menu
       refineMenu.appendChild(categoryContainer);
       categoryContainer.appendChild(categoryHeading);
@@ -133,11 +133,11 @@ function setRefineMenu() {
     // Store window.innerHeight and empty "height" variable
     innerHeight = window.innerHeight,
     innerWidth = window.innerWidth;
-  
+
   if (window.innerWidth < 768) {
     // Sets heights so refine menu fills mobile screen.
     refineMenu.style.height = innerHeight - 130 + "px";
-    // Sets height of subcategories (only one subcategory can be viewed at a time on mobile) 
+    // Sets height of subcategories (only one subcategory can be viewed at a time on mobile)
     categoryListHeight = innerHeight - 330 + "px";
     // Sets height for any open clear filter div
     clearFilterHeight = 50 + "px";
@@ -145,13 +145,13 @@ function setRefineMenu() {
       // Hide all subcategories
       if (categorySubcontainers[i].style.height === "" || categorySubcontainers[i].style.height === "0px") {
         categorySubcontainers[i].style.height = 0;
-      } else { 
+      } else {
         categorySubcontainers[i].style.height = categoryListHeight;
       }
       // maxHeight to enable scrolling inside div
       categoryLists[i].style.maxHeight = categoryListHeight;
     }
-    
+
 
   } else {
     categoryListHeight = (innerHeight - 80) / categorySubcontainers.length - 30;
@@ -183,13 +183,13 @@ function getDVDsAndBluRays() {
         myMovies = shuffle(JSON.parse(xmlhttp.responseText)),
         myMoviesTitle,
         myMoviesYear;
-      
+
       for (i = 0; i < myMovies.length; i++) {
         myMoviesTitle = myMovies[i].title.toLowerCase().split(" ").join("+");
         myMoviesYear = myMovies[i].year;
         // Third parameter sends boolean to identify last movie in list
         getMovieInfo(myMoviesTitle, myMoviesYear, i, myMovies.length, i === myMovies.length - 1);
-        
+
       }
     }
   };
@@ -221,7 +221,7 @@ function getMovieInfo(myMoviesTitle, myMoviesYear, i, length, isLast) {
     if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
       var movieInfo = JSON.parse(xmlhttp.responseText);
       // Movies not recognised by omdbapi.com throw error
-      if (!movieInfo.Error) { 
+      if (!movieInfo.Error) {
         // Initiate movie list build. Store genres, dirs, countries, and years in temp variable for setFilters function
         makeMovieList(myMoviesTitle, movieInfo);
         fourCategories.genre.temp = movieInfo.Genre;
@@ -251,7 +251,7 @@ function makeMovieList(myMoviesTitle, movieInfo) {
   // Declare elements and get movieList
   var movie = document.createElement("li"), // li containing individual movies
     thumbnailContainer = document.createElement("div"),
-    thumbnail = document.createElement("img"), 
+    thumbnail = document.createElement("img"),
     info = document.createElement("div"), // contains all info
     title = document.createElement("h2"),
     plot = document.createElement("p"),
@@ -265,7 +265,7 @@ function makeMovieList(myMoviesTitle, movieInfo) {
     imdbA = document.createElement("a"),
     clearFix = document.createElement("div"),
     movieList = document.getElementById("movie-list");
-    
+
   // Set attributes
   movie.className = "movie";
   thumbnailContainer.className = "thumbnail-container";
@@ -284,23 +284,23 @@ function makeMovieList(myMoviesTitle, movieInfo) {
   imdbA.className = "imdbA";
   imdbA.setAttribute("target", "_blank");
   clearFix.className = "clearfix";
-  
+
   // Set innerHTML
   title.innerHTML = movieInfo.Title;
-  plot.innerHTML = movieInfo.Plot !== "N/A" ? movieInfo.Plot : "No plot details available";
+  plot.innerHTML = movieInfo.Plot;
   director.innerHTML = movieInfo.Director;
   country.innerHTML = movieInfo.Country;
   year.innerHTML = movieInfo.Year;
   genre.innerHTML = movieInfo.Genre;
   runtime.innerHTML = movieInfo.Runtime;
   imdbA.innerHTML = "IMDB Page";
-  
+
   // Set img
-  thumbnail.src = "images/" + myMoviesTitle.replace(/\W+/g, "") + ".jpg";
-  
+  thumbnail.src = movieInfo.Poster;
+
   // Set href
   imdbA.href = "https://www.imdb.com/title/" + movieInfo.imdbID;
-  
+
   // build movielist, one li at a time
   movieList.appendChild(movie);
   movie.appendChild(thumbnailContainer);
@@ -348,7 +348,7 @@ function populateRefineMenu() {
     i,
     list,
     listItem;
-    
+
   for (key in fourCategories) {
     if (fourCategories.hasOwnProperty(key)) {
       arr = fourCategories[key].arr;
@@ -358,7 +358,7 @@ function populateRefineMenu() {
       for (i = 0; i < arr.length; i++) {
         list = document.getElementById(name + "-ul");
         listItem = document.createElement("li");
-        
+
         listItem.className = "selection " + name + "-selection";
         listItem.innerHTML = arr[i];
         list.appendChild(listItem);
@@ -396,11 +396,11 @@ function refineButton(refine, refineMenu) {
   });
 }
 
-// Closes open subcontainer when refine menu closes 
+// Closes open subcontainer when refine menu closes
 function closeSubcontainers() {
   var i,
     categorySubcontainers = document.querySelectorAll(".category-subcontainer");
-    
+
   for (i = 0; i < categorySubcontainers.length; i++) {
     if (categorySubcontainers[i].style.height !== 0)
      categorySubcontainers[i].style.height = 0;
@@ -415,14 +415,14 @@ function enableRefineMenu() {
     categoryHeadings = document.querySelectorAll(".category-heading"),
     selections = document.querySelectorAll(".selection"),
     clearFilters = document.querySelectorAll(".clear-filter");
-  
+
   for (i = 0; i < categoryHeadings.length; i++) {
     categoryHeadingOnClick(categoryHeadings[i]);
   }
   for (j = 0; j < selections.length; j++) {
     selectionsOnClick(selections[j]);
   }
-  
+
   for (k = 0; k < clearFilters.length; k++) {
     clearFilterOnClick(clearFilters[k]);
   }
@@ -439,10 +439,10 @@ function categoryHeadingOnClick(categoryHeading) {
         subs = document.querySelectorAll(".category-subcontainer");
       for (i = 0; i < subs.length; i++) {
         // Accordion
-        subcontainer === subs[i] 
-          ? subcontainer.style.height === categoryListHeight 
-            ? subcontainer.style.height = 0 
-            : subcontainer.style.height = categoryListHeight 
+        subcontainer === subs[i]
+          ? subcontainer.style.height === categoryListHeight
+            ? subcontainer.style.height = 0
+            : subcontainer.style.height = categoryListHeight
           : subs[i].style.height = 0;
       }
     }
@@ -512,7 +512,7 @@ function clearFilterOnClick(clearFilter) {
 function adjustCategoriesHeight(name, chosenArr, clearFilter) {
   if (clearFilter !== "undefined") clearFilter = document.getElementById(name + '-clear-filter');
   var categoryList = document.getElementById(name + "-ul");
-  
+
   if (chosenArr.length !== 0) {
     clearFilter.style.height = clearFilterHeight;
     categoryList.style.maxHeight = parseFloat(categoryListHeight) - parseFloat(clearFilterHeight) + "px";
@@ -616,7 +616,7 @@ function updateSideBar() {
       // Find every genre, director, country, and year
       everyPossibleSelection = document.querySelectorAll("." + fourCategories[key].name);
       // See what selections are available
-      availableSelections = 
+      availableSelections =
         // Create new array, iterate through NodeList, filter for displayed movies only, flatten, and remove repetition.
         [].slice.call(everyPossibleSelection)
           .filter(isItDisplayed)
@@ -628,8 +628,8 @@ function updateSideBar() {
     sidebarElements = document.querySelectorAll("." + fourCategories[key].name + '-selection');
     for (i = 0; i < sidebarElements.length; i++) {
       option = sidebarElements[i].innerHTML;
-      availableSelections.indexOf(option) === -1 
-        ? sidebarElements[i].classList.add("unselectable") 
+      availableSelections.indexOf(option) === -1
+        ? sidebarElements[i].classList.add("unselectable")
         : sidebarElements[i].classList.remove("unselectable");
     }
   }
@@ -663,7 +663,7 @@ window.addEventListener("resize", function() {
       key,
       name,
       chosenArr;
-      
+
     for (i = 0; i < categorySubcontainers.length; i++) {
       if (categorySubcontainers[i].style.height !== "0px") {
         noOfCategorySubcontainersOpen += 1;
