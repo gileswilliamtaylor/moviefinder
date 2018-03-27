@@ -215,7 +215,7 @@ function shuffle(myMovies) {
 function getMovieInfo(myMoviesTitle, myMoviesYear, i, length, isLast) {
   var xmlhttp = new XMLHttpRequest(),
     // myMoviesTitle and myMoviesYear can be empty
-    url = "http://www.omdbapi.com/?i&t=" + myMoviesTitle + "&y=" + myMoviesYear + "&plot=short&r=json";
+    url = "http://www.omdbapi.com/?i&t=" + myMoviesTitle + "&y=" + myMoviesYear + "&plot=short&r=json&apikey=5026d42e";
 
   xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
